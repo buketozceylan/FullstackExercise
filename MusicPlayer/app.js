@@ -8,6 +8,9 @@ const next = document.querySelector("#controls #next");
 const duration = document.querySelector("#duration");
 const currentTime = document.querySelector("#current-time");
 const progressBar = document.querySelector("#progress-bar");
+const volume = document.querySelector("#volume");
+const volumeBar = document.querySelector("#volume-bar")
+
 
 const player = new MusicPlayer(musicList);
 
@@ -45,12 +48,12 @@ next.addEventListener("click",()=>{
 
 function pauseMusic(){
     container.classList.remove("playing");
-    play.classList = "fa-solid fa-play";
+    play.querySelector("i").classList = "fa-solid fa-play";
     audio.pause();
 };
 function playMusic(){
     container.classList.add("playing");
-    play.classList = "fa-solid fa-pause";
+    play.querySelector("i").classList = "fa-solid fa-pause";
     audio.play();
 };
 
@@ -74,4 +77,38 @@ audio.addEventListener("timeupdate", ()=>{
 progressBar.addEventListener("input",()=>{
     currentTime.textContent = calculateTime(progressBar.value);
     audio.currentTime = progressBar.value;
+});
+
+
+let muteState = false;
+
+volumeBar.addEventListener("input",(e) => {
+    const value = e.target.value;
+    audio.volume = value / 100;
+    if (value == 0) {
+        audio.muted = true;
+        muteState = true;
+        
+        volume.classList = "fa-solid fa-volume-xmark";
+    }else{
+        audio.muted = false;
+        muteState = false;
+        
+        volume.classList = "fa-solid fa-volume-high";
+    }
 })
+
+volume.addEventListener("click", ()=>{
+    if (muteState === false){
+        audio.muted = true;
+        muteState = true;
+        volumeBar.value = 0
+        
+        volume.classList = "fa-solid fa-volume-xmark";
+    }else{
+        audio.muted = false;
+        muteState = false;
+        
+        volume.classList = "fa-solid fa-volume-high";
+    }
+});
