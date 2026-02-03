@@ -33,6 +33,7 @@ class UI{
     deleteTarget(element){
         if (element.classList.contains('delete')) {
             element.parentElement.parentElement.remove();
+            return true;
     }
     }
     showAlert(message,className){
@@ -122,8 +123,12 @@ document.getElementById('new-course').addEventListener('submit', function(e) {
 document.getElementById("course-list").addEventListener('click', function(e){
 
     const ui = new UI();
-    ui.deleteTarget(e.target);
 
-    Storage.deleteCourse(e.target);
-    ui.showAlert('The course has been deleted.', 'success')
+    if (ui.deleteTarget(e.target)) {
+        Storage.deleteCourse(e.target);
+        ui.showAlert('The course has been deleted.', 'success')
+    }
+    
+
+    
 })
