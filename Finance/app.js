@@ -23,4 +23,24 @@ fetch(url + "/codes")
         list_one.innerHTML = options;
         list_two.innerHTML = options;
 
-    })
+    });
+
+calculate.addEventListener('click', ()=>{
+    const stock1 = currency_one.value;
+    const stock2 = currency_two.value;
+
+    const amountRes = amount.value;
+
+    fetch(url+"/latest/"+stock1)
+        .then(res => res.json())
+        .then(data => {
+            const FinalRes = data.conversion_rates[stock2] * amountRes;
+            result.innerHTML = `<div class="card border-primary">
+                        <div class="card-body text-center" style="font-size: 30px;">${amountRes} ${stock1} = ${FinalRes} ${stock2}</div>
+                </div>`;
+            //
+        })
+
+})
+
+
